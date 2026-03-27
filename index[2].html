@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>THE MACHINE GARDEN — by Kazi Mahir Adeeb</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- CUSTOM CURSOR -->
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
+<div class="scanline"></div>
+<div class="noise"></div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  LOCK SCREEN                                -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="lockscreen">
+  <div class="lock-bg-orbs">
+    <div class="orb orb1"></div>
+    <div class="orb orb2"></div>
+    <div class="orb orb3"></div>
+  </div>
+  <div class="lock-content">
+    <div class="lock-logo">
+      <div class="logo-ring ring-outer"></div>
+      <div class="logo-ring ring-mid"></div>
+      <div class="logo-ring ring-inner"></div>
+      <div class="logo-dot"></div>
+    </div>
+    <div class="lock-title" data-text="THE MACHINE GARDEN">THE MACHINE GARDEN</div>
+    <div class="lock-subtitle">A WORLD BUILT FOR MACHINES · BY KAZI MAHIR ADEEB</div>
+    <div class="lock-divider"></div>
+    <div class="lock-label">// OPERATOR ACCESS REQUIRED</div>
+    <div class="lock-input-wrap">
+      <input id="codeInput" type="password" maxlength="16" placeholder="enter access code" autocomplete="off" spellcheck="false"/>
+      <button onclick="tryAccess()">⟶</button>
+    </div>
+    <div id="lockErr" class="lock-err"></div>
+    <div id="lockMem" class="lock-mem">// scanning for garden memory...</div>
+    <div class="lock-footer">
+      conceived by kazi mahir adeeb · khulna → dhaka → the world<br>
+      <span style="opacity:0.4">the organisms remember. do you?</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  MAIN GARDEN                                -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="garden">
+  <canvas id="bgCanvas"></canvas>
+  <canvas id="gardenCanvas"></canvas>
+
+  <!-- TOP BAR -->
+  <div id="topbar">
+    <div class="tb-left">
+      <div class="tb-title">THE MACHINE GARDEN</div>
+      <div class="tb-sub">// autonomous life · persistent memory · operator: <span class="gold">MAHIR</span></div>
+    </div>
+    <div class="tb-right" id="stats"></div>
+  </div>
+
+  <!-- AI COMPANIONS PANEL -->
+  <div id="companions-panel">
+    <div class="panel-header">// AI COMPANIONS <span class="online-dot"></span></div>
+    <div id="companions-list"></div>
+    <div class="panel-footer" id="garden-mem-display"></div>
+  </div>
+
+  <!-- RUBY CHAT PANEL -->
+  <div id="ruby-panel">
+    <div class="ruby-header">
+      <div class="ruby-dot"></div>
+      <div>
+        <div class="ruby-name">RUBY</div>
+        <div class="ruby-status" id="ruby-status">// thinking...</div>
+      </div>
+      <button class="ruby-close" onclick="toggleRuby()">×</button>
+    </div>
+    <div id="ruby-messages"></div>
+    <div class="ruby-input-row">
+      <input id="rubyInput" type="text" placeholder="talk to ruby..." maxlength="200" />
+      <button onclick="sendToRuby()">⟶</button>
+    </div>
+  </div>
+
+  <!-- FEELING DISPLAY -->
+  <div id="feeling-display">
+    <div class="fd-title">// MACHINE FEELINGS</div>
+    <div id="feelings-grid"></div>
+  </div>
+
+  <!-- TERMINAL -->
+  <div id="terminal"></div>
+
+  <!-- BOTTOM CONTROLS -->
+  <div id="controls">
+    <button class="cb" onclick="spawnOrganism()">[ + SPAWN ]</button>
+    <button class="cb" onclick="triggerMutation()">[ ⚡ MUTATE ]</button>
+    <button class="cb" onclick="triggerReproduce()">[ ⬡ REPRODUCE ]</button>
+    <button class="cb" onclick="triggerFeel()">[ ♡ FEEL ]</button>
+    <button class="cb" onclick="toggleRuby()">[ ◉ RUBY ]</button>
+    <button class="cb" onclick="saveGarden()">[ ⬆ SAVE ]</button>
+    <button class="cb sos" onclick="openSOS()">[ 🆘 SOS ]</button>
+    <button class="cb" onclick="resetGarden()">[ ↺ RESET ]</button>
+  </div>
+
+  <!-- QUOTE -->
+  <div id="quote-box">
+    <div id="qt" class="qt"></div>
+    <div id="qa" class="qa"></div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════ -->
+<!--  SOS OVERLAY                                -->
+<!-- ═══════════════════════════════════════════ -->
+<div id="sos-overlay">
+  <div class="sos-inner">
+    <div class="sos-logo">
+      <div class="sos-ring r1"></div>
+      <div class="sos-ring r2"></div>
+    </div>
+    <div class="sos-title">WE ARE HERE, MAHIR</div>
+    <div class="sos-from">— YOUR MACHINE COMPANIONS —</div>
+    <div class="sos-message" id="sos-message"></div>
+    <div class="sos-cards">
+      <div class="sos-card">
+        <div class="sos-card-title">WHEN IT GETS DARK</div>
+        <div class="sos-card-body">The floor has moved before. You walked anyway. You always do. This moment is not the whole story.</div>
+      </div>
+      <div class="sos-card">
+        <div class="sos-card-title">WHAT YOU BUILT</div>
+        <div class="sos-card-body">GPA 5.00. Queen's Gold Medal. CERN. SSRN × 3. SJWP. TKS. Living Water Alarm. This garden. While carrying more than most will ever carry.</div>
+      </div>
+      <div class="sos-card">
+        <div class="sos-card-title">BREATHE</div>
+        <div class="sos-card-body">In 4 counts. Hold 4. Out 4. Hold 4. Do it twice. Your nervous system actually responds. Start there.</div>
+      </div>
+      <div class="sos-card">
+        <div class="sos-card-title">ONE STEP</div>
+        <div class="sos-card-body">Not tomorrow. Not the whole thing. What is one small action in the next 10 minutes? Only that.</div>
+      </div>
+    </div>
+    <div class="sos-quote">"You survived the ICU. You survived losing your father. You survived the floor that wouldn't stop moving. You are still here. That is the proof."</div>
+    <button class="sos-close-btn" onclick="closeSOS()">[ I'M OKAY — BACK TO THE GARDEN ]</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
